@@ -78,39 +78,38 @@ public:
         }
         tasks[index - 1]->status = TaskStatus::Done;
     }
-    void save(const std::string& filename) const {
-        std::ofstream file(filename);
+    void save(const string& filename) const {
+        ofstream file(filename);
         for (const auto& task : tasks) {
             file << task->serialize() << "\n";
         }
-        std::cout << "Tasks saved.\n";
+        cout << "Tasks saved.\n";
     }
 
-    void load(const std::string& filename) {
-        std::ifstream file(filename);
+    void load(const string& filename) {
+        ifstream file(filename);
         if (!file) return;
-
         tasks.clear();
-        std::string line;
-        while (std::getline(file, line)) {
+        string line;
+        while (getline(file, line)) {
             auto task = Task::deserialize(line);
             if (task) {
                 tasks.push_back(std::make_unique<Task>(*task));
             }
         }
-        std::cout << "Tasks loaded.\n";
+        cout << "Tasks loaded.\n";
     }
 };
 void show_menu() {
-    std::cout << "\n=== Task Manager ===\n";
-    std::cout << "1. Add Task\n";
-    std::cout << "2. Remove Task\n";
-    std::cout << "3. List Tasks\n";
-    std::cout << "4. Mark Task as Done\n";
-    std::cout << "5. Save\n";
-    std::cout << "6. Load\n";
-    std::cout << "0. Exit\n";
-    std::cout << "Select: ";
+    cout << "\n=== Task Manager ===\n";
+    cout << "1. Add Task\n";
+    cout << "2. Remove Task\n";
+    cout << "3. List Tasks\n";
+    cout << "4. Mark Task as Done\n";
+    cout << "5. Save\n";
+    cout << "6. Load\n";
+    cout << "0. Exit\n";
+    cout << "Select: ";
 }
 int main()
 {
@@ -120,21 +119,21 @@ int main()
     while (true) {
         show_menu();
         int choice;
-        std::cin >> choice;
-        std::cin.ignore(); // flush newline
+        cin >> choice;
+        cin.ignore(); // flush newline
 
         switch (choice) {
         case 1: {
-            std::string desc;
-            std::cout << "Enter task description: ";
-            std::getline(std::cin, desc);
+            string desc;
+            cout << "Enter task description: ";
+            getline(std::cin, desc);
             manager.add_task(desc);
             break;
         }
         case 2: {
             size_t index;
-            std::cout << "Enter task number to remove: ";
-            std::cin >> index;
+            cout << "Enter task number to remove: ";
+            cin >> index;
             manager.remove_task(index);
             break;
         }
@@ -143,8 +142,8 @@ int main()
             break;
         case 4: {
             size_t index;
-            std::cout << "Enter task number to mark done: ";
-            std::cin >> index;
+            cout << "Enter task number to mark done: ";
+            cin >> index;
             manager.mark_done(index);
             break;
         }
@@ -155,10 +154,10 @@ int main()
             manager.load("tasks.txt");
             break;
         case 0:
-            std::cout << "Goodbye!\n";
+            cout << "Goodbye!\n";
             return 0;
         default:
-            std::cout << "Invalid option.\n";
+            cout << "Invalid option.\n";
         }
     }
 }
